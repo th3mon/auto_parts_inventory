@@ -1,3 +1,4 @@
+using Catalog.Api.Dtos;
 using Catalog.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,28 @@ public class PartsController : ControllerBase
         }
 
         return NotFound();
+    }
+
+    [HttpPost]
+    public ActionResult<Part> CreatePart(CreatePartRequest request)
+    {
+        var part = new Part()
+        {
+            Id = Guid.NewGuid(),
+            Name = request.Name,
+            Price = request.Price,
+            Sku = request.Sku,
+            Manufacturer = request.Manufacturer,
+            StockQuantity = request.StockQuantity
+        };
+
+        Parts.Add(part);
+
+        return CreatedAtAction(
+            nameof(GetPart),
+            new { id = part.Id },
+            part
+        );
     }
 }
 
