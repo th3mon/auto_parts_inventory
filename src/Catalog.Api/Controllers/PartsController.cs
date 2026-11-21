@@ -19,9 +19,16 @@ public class PartsController : ControllerBase
         return Ok(PartsController.Parts);
     }
 
-    [HttpGet("id:guid")]
+    [HttpGet("{id:guid}")]
     public ActionResult<Part> GetPart(Guid id)
     {
+        var part = Parts.FirstOrDefault(p => p.Id == id);
+
+        if (part != null)
+        {
+            return Ok(part);
+        }
+
         return NotFound();
     }
 }
