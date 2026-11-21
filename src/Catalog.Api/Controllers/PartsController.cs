@@ -18,4 +18,11 @@ public class PartsController : ControllerBase
     {
         return Ok(PartsController.Parts);
     }
+
+    [HttpGet("id:guid")]
+    public ActionResult<Part> GetPart(Guid id)
+    {
+        return NotFound();
+    }
 }
+
