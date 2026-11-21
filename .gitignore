@@ -1,2 +1,16 @@
+# JetBrains Rider
+.idea/
+
+# .NET
+**/bin/
+**/obj/
+
+# User-specific IDE files
+*.user
+*.suo
+
+# AI
 .pi/
-/.DS_Store
+
+# System
+.DS_Store
