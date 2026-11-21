@@ -12,9 +12,12 @@ help:
 	@echo "  make format      - Format C# code using dotnet format"
 	@echo "  make clean       - Remove build outputs"
 	@echo "  make restore     - Restore NuGet dependencies"
+	@echo ""
+	@echo "Note: dev-catalog sets IntermediateOutputPath to obj/Debug/net10.0/"
+	@echo "to work around a dotnet watch path separator issue on macOS."
 
 dev-catalog:
-	dotnet watch run --project src/Catalog.Api
+	IntermediateOutputPath=obj/Debug/net10.0/ dotnet watch run --project src/Catalog.Api
 
 build:
 	dotnet build
