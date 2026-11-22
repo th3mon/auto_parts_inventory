@@ -2,7 +2,7 @@ using Catalog.Api.Models;
 
 namespace Catalog.Api.Services;
 
-public class PartsService
+public class PartsService : IPartsService
 {
     private readonly List<Part> Parts = new()
     {

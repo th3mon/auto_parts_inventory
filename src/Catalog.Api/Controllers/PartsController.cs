@@ -10,9 +10,9 @@ namespace Catalog.Api.Controllers;
 public class PartsController : ControllerBase
 {
 
-    private readonly PartsService partsService;
+    private readonly IPartsService partsService;
 
-    public PartsController(PartsService partsService)
+    public PartsController(IPartsService partsService)
     {
         this.partsService = partsService;
     }
