@@ -9,11 +9,6 @@ namespace Catalog.Api.Controllers;
 [Route("api/parts")]
 public class PartsController : ControllerBase
 {
-    private static readonly List<Part> Parts = new()
-    {
-        new Part { Id = Guid.NewGuid(), Name = "Part 1", Price = 66.6m, Sku = "Part 1.1", Manufacturer = "Man666", StockQuantity = 666 },
-        new Part { Id = Guid.NewGuid(), Name = "Part 2", Price = 6.66m, Sku = "Part 2.1", Manufacturer = "Man666", StockQuantity = 333 }
-    };
 
     private readonly PartsService partsService;
 
@@ -23,15 +18,15 @@ public class PartsController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<Part>> GetParts()
+    public ActionResult<IReadOnlyList<Part>> GetParts()
     {
-        return Ok(Parts);
+        return Ok(partsService.GetAll());
     }
 
     [HttpGet("{id:guid}")]
     public ActionResult<Part> GetPart(Guid id)
     {
-        var part = Parts.FirstOrDefault(p => p.Id == id);
+        var part = partsService.GetById(id);
 
         if (part != null)
         {
@@ -54,7 +49,7 @@ public class PartsController : ControllerBase
             StockQuantity = request.StockQuantity
         };
 
-        Parts.Add(part);
+        partsService.Add(part);
 
         return CreatedAtAction(
             nameof(GetPart),
@@ -66,35 +61,36 @@ public class PartsController : ControllerBase
     [HttpPut("{id:guid}")]
     public IActionResult UpdatePart(Guid id, UpdatePartRequest request)
     {
-        var part = Parts.FirstOrDefault(p => p.Id == id);
-
-        if (part == null)
+        var updated = partsService.Update(id, new Part
         {
-            return NotFound();
+
+            Name = request.Name,
+            Price = request.Price,
+            Sku = request.Sku,
+            Manufacturer = request.Manufacturer,
+            StockQuantity = request.StockQuantity,
+        });
+
+        if (updated)
+        {
+            return NoContent();
         }
 
-        part.Name = request.Name;
-        part.Price = request.Price;
-        part.Sku = request.Sku;
-        part.Manufacturer = request.Manufacturer;
-        part.StockQuantity = request.StockQuantity;
-
-        return NoContent();
+        return NotFound();
     }
 
     [HttpDelete("{id:guid}")]
     public IActionResult DeletePart(Guid id)
     {
-        var part = Parts.FirstOrDefault(p => p.Id == id);
+        var deleted = partsService.Remove(id);
 
-        if (part == null)
+        if (deleted)
         {
-            return NotFound();
+            return NoContent();
         }
 
-        Parts.Remove(part);
 
-        return NoContent();
+        return NotFound();
     }
 }
 
