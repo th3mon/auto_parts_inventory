@@ -54,5 +54,24 @@ public class PartsController : ControllerBase
             part
         );
     }
+
+    [HttpPut("{id:guid}")]
+    public IActionResult UpdatePart(Guid id, UpdatePartRequest request)
+    {
+        var part = Parts.FirstOrDefault(p => p.Id == id);
+
+        if (part == null)
+        {
+            return NotFound();
+        }
+
+        part.Name = request.Name;
+        part.Price = request.Price;
+        part.Sku = request.Sku;
+        part.Manufacturer = request.Manufacturer;
+        part.StockQuantity = request.StockQuantity;
+
+        return NoContent();
+    }
 }
 
