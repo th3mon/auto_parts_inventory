@@ -1,5 +1,6 @@
 using Catalog.Api.Dtos;
 using Catalog.Api.Models;
+using Catalog.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers;
@@ -13,6 +14,13 @@ public class PartsController : ControllerBase
         new Part { Id = Guid.NewGuid(), Name = "Part 1", Price = 66.6m, Sku = "Part 1.1", Manufacturer = "Man666", StockQuantity = 666 },
         new Part { Id = Guid.NewGuid(), Name = "Part 2", Price = 6.66m, Sku = "Part 2.1", Manufacturer = "Man666", StockQuantity = 333 }
     };
+
+    private readonly PartsService partsService;
+
+    public PartsController(PartsService partsService)
+    {
+        this.partsService = partsService;
+    }
 
     [HttpGet]
     public ActionResult<List<Part>> GetParts()
