@@ -73,5 +73,20 @@ public class PartsController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeletePart(Guid id)
+    {
+        var part = Parts.FirstOrDefault(p => p.Id == id);
+
+        if (part == null)
+        {
+            return NotFound();
+        }
+
+        Parts.Remove(part);
+
+        return NoContent();
+    }
 }
 
