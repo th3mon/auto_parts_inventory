@@ -17,7 +17,7 @@ public class PartsController : ControllerBase
     [HttpGet]
     public ActionResult<List<Part>> GetParts()
     {
-        return Ok(PartsController.Parts);
+        return Ok(Parts);
     }
 
     [HttpGet("{id:guid}")]
